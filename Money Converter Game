@@ -1,0 +1,32 @@
+using System;
+
+namespace MoneyMaker
+{
+  class MainClass
+  {
+    public static void Main(string[] args)
+    {
+      Console.WriteLine("Welcome to Money Maker!");
+      Console.WriteLine("How many cents do you want to convert today?");
+      double centsTotal = Convert.ToDouble(Console.ReadLine());
+      
+
+//gold coin solution
+      double goldCoinsNeeded = Math.Floor(centsTotal / 10);
+      double goldRemainder = centsTotal % 10;
+double silverCoinsNeededG = Math.Floor(goldRemainder / 5);
+double silverRemainderG = goldRemainder % 5;
+double bronzeCoinsNeededG = silverRemainderG;
+
+//silver coin solution
+double silverCoinsNeededS = Math.Floor(centsTotal / 5);
+double silverRemainder = centsTotal % 5;
+double bronzeCoinsNeededS = silverRemainder;
+
+//bronze coin solution
+double bronzeCoinsNeeded = centsTotal;
+
+Console.WriteLine($"You could make {centsTotal} cents from either: \n{bronzeCoinsNeeded} bronze coins, \n{silverCoinsNeededS} silver coins and {bronzeCoinsNeededS} bronze coins or \n{goldCoinsNeeded} gold coins, {silverCoinsNeededG} silver coins and {bronzeCoinsNeededG} bronze coins!");
+    }
+  }
+}
