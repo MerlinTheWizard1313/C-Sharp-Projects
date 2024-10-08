@@ -1,0 +1,140 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+
+namespace ProgrammingLanguages
+{
+  class Program
+  {
+    static void Main()
+    {
+      List<Language> languages = File.ReadAllLines("./languages.tsv")
+        .Skip(1)
+        .Select(line => Language.FromTsv(line))
+        .ToList();
+
+      /*foreach(Language l in languages)
+      {
+        Console.WriteLine(l.Prettify());
+      }*/
+
+      var details = languages.Select(l=>$"{l.Year},{l.Name},{l.ChiefDeveloper}");
+
+      /*foreach(string d in details)
+      {
+        Console.WriteLine(d);
+      }*/
+
+      var cSharp = from l in languages
+        where l.Name.Contains("C#")
+        select l;
+
+      /*foreach(Language l in cSharp)
+      {
+        Console.WriteLine(l.Prettify());
+      }*/
+
+      var microsoft = from l in languages
+         where l.ChiefDeveloper.Contains("Microsoft")
+         select l;
+      
+      /*foreach (Language l in microsoft)
+      {
+        Console.WriteLine(l.Prettify());
+      }*/
+
+      var lisp = from l in languages
+         where l.Predecessors.Contains("Lisp")
+         select l;
+      
+      /*foreach (Language l in lisp)
+      {
+        Console.WriteLine(l.Prettify());
+      }*/
+      //PrettyPrintAll(lisp);
+      
+      var scripts = from l in languages
+         where l.Name.Contains("Script")
+         select l;
+      
+      /*foreach (Language l in scripts)
+      {
+        Console.WriteLine(l.Name);
+      }*/
+
+      //Console.WriteLine(languages.Count);
+
+      var between = languages
+         .Where(l=>l.Year >=1995 && l.Year <=2005)
+         .Select(l=>$"{l.Name} was invented in {l.Year}");
+
+      //Console.WriteLine(between.Count());
+      /*foreach(string i in between)
+      {
+        Console.WriteLine(i);
+      }*/
+      //PrintAll(between);
+    }
+
+    static void PrettyPrintAll(IEnumerable<Language> lang)
+    {
+      foreach(Language l in lang)
+      {
+        Console.WriteLine($"{l.Year}, {l.Name}, {l.ChiefDeveloper}, {l.Predecessors}");
+      }
+    }
+
+    static void PrintAll(IEnumerable<Object> obj)
+    {
+      foreach(Object o in obj)
+      {
+        Console.WriteLine(o);
+      }
+    }
+  }
+}
+
+using System;
+
+namespace ProgrammingLanguages
+{
+  public class Language
+  {
+    public static Language FromTsv(string tsvLine)
+    {
+      string[] values = tsvLine.Split('\t');
+      Language lang = new Language(
+        Convert.ToInt32(values[0]),
+        Convert.ToString(values[1]),
+        Convert.ToString(values[2]),
+        Convert.ToString(values[3]));
+      return lang;
+    }
+
+    public int Year
+    { get; set; }
+
+    public string Name
+    { get; set; }
+
+    public string ChiefDeveloper
+    { get; set; }
+
+    public string Predecessors
+    { get; set; }
+
+    public Language(int year, string name, string chiefDeveloper, string predecessors)
+    {
+      Year = year;
+      Name = name;
+      ChiefDeveloper = chiefDeveloper;
+      Predecessors = predecessors;
+    }
+
+    public string Prettify()
+    {
+      return $"{Year}, {Name}, {ChiefDeveloper}, {Predecessors}";
+    }
+  }
+}
