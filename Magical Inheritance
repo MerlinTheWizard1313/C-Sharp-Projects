@@ -1,0 +1,169 @@
+Program.cs
+using System;
+
+namespace MagicalInheritance
+{
+  class Program
+  {
+    static void Main(string[] args)
+    {
+      Storm[] Storms = new Storm[10];
+      Storms[0] = new Storm("wind",false,"Zul'rajas");
+      Console.WriteLine(Storms[0].Announce());
+
+      Pupil Mezilkree = new Pupil("Mezilkree","idk");
+      Console.WriteLine(Mezilkree.Announce());
+      Storms[1] = Mezilkree.CastWindStorm();
+      Console.WriteLine(Storms[1].Announce());
+
+      Mage Guldan = new Mage("Guldan","idk");
+      Console.WriteLine(Guldan.Announce());
+      Storms[2] = Guldan.CastRainStorm();
+      Console.WriteLine(Storms[2].Announce());
+
+      Archmage Neilas = new Archmage("Neilas Aran","idk");
+      Console.WriteLine(Neilas.Announce());
+      Storms[3] = Neilas.CastRainStorm();
+      Storms[4] = Neilas.CastLightningStorm();
+      Console.WriteLine(Storms[3].Announce());
+      Console.WriteLine(Storms[4].Announce());
+    }
+  }
+Storm.cs
+using System;
+
+namespace MagicalInheritance
+{
+  class Storm : Spell
+  {
+    public Storm(string essence, bool isStrong, string caster) : base(essence, isStrong, caster)
+    {
+    }
+
+    public override string Announce()
+    {
+      return $"{Caster} cast a {Strength} {Essence} storm!";
+    }
+  }
+}
+Spell.cs 
+using System;
+
+namespace MagicalInheritance
+{
+  abstract class Spell
+  {
+    public string Essence
+    { get; protected set;}
+
+    public bool IsStrong
+    { get; protected set;}
+
+    public string Caster
+    { get; protected set;}
+
+    public string Strength
+    { get; protected set;}
+
+    public Spell(string essence, bool isStrong, string caster)
+    {
+      Essence = essence;
+      Essence = Essence.ToLower();
+      IsStrong = isStrong;
+      if (IsStrong == true)
+      {
+        Strength = "strong";
+      }
+      else
+      {
+        Strength = "weak";
+      }
+      Caster = caster;
+    }
+
+    public abstract string Announce();
+  }
+}
+Pupil.cs
+using System;
+
+namespace MagicalInheritance
+{
+  class Pupil
+  {
+    public string Title 
+    { get; private set;}
+
+    public string Origin
+    { get; private set;}
+
+    public Pupil(string title, string origin)
+    {
+      Title = title;
+      Origin = origin;
+    }
+
+    public Storm CastWindStorm()
+    {
+      Storm spell = new Storm("wind", false, Title);
+      return spell;
+    }
+
+    public virtual string Announce()
+    {
+      return $"I am {Title}, a pupil of {Origin}!";
+    }
+  }
+}
+Mage.cs
+using System;
+
+namespace MagicalInheritance
+{
+  class Mage : Pupil
+  {
+    public Mage(string title, string origin) : base(title, origin)
+    {
+    }
+
+    public virtual Storm CastRainStorm()
+    {
+      Storm spell = new Storm("rain", false, Title);
+      return spell;
+    }
+
+    public override string Announce()
+    {
+      return $"I am {Title}, the mage of {Origin}!";
+    }
+  }
+}
+Archmage.cs
+using System;
+
+namespace MagicalInheritance
+{
+  class Archmage : Mage
+  {
+    public Archmage(string title, string origin) : base(title, origin)
+    {
+    }
+
+    public override Storm CastRainStorm()
+    {
+      Storm spell = new Storm("rain", true, Title);
+      return spell;
+    }
+
+    public Storm CastLightningStorm()
+    {
+      Storm spell = new Storm("lightning", true, Title);
+      return spell;
+    }
+
+    public override string Announce()
+    {
+      return $"I am {Title}, the Archmage of {Origin}!";
+    }
+  }
+}
