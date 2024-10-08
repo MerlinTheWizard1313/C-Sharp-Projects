@@ -1,0 +1,86 @@
+using System;
+
+namespace ArchitectArithmetic
+{
+  class Program
+  {
+    public static void Main(string[] args)
+    {
+      double materialCost = 180;
+      Console.WriteLine("Please choose the building you would like to calculate the cost of: ");
+      string building = Console.ReadLine();
+      building = building.ToUpper();
+      Console.WriteLine(CalculateTotalCost(building, materialCost));
+    }
+    public static double Circle(double radius)
+    {
+      double radiusSquare = Math.Pow(radius, 2);
+      double area = radiusSquare*Math.PI;
+      return area;
+    }
+    public static double Rect(double length, double width)
+    {
+      double area = length*width;
+      return area;
+    }
+    public static double Triangle(double height, double length)
+    {
+      double area = (height * length)/2;
+      return area;
+    }
+    public static double totalPrice(double tilePrice, double totalArea)
+    {
+      double Price = tilePrice*totalArea;
+      Price = Math.Round(Price,2);
+      return Price;
+    }
+    public static string CalculateTotalCost(string building, double materialCost)
+    {
+      switch (building)
+      {
+        case "PANTHEON":
+          double radiusPantheon = 21.5;
+          double heightPantheon = 15;
+          double lengthPantheon = 18;
+          double pTotalArea = Circle(radiusPantheon) + Rect(heightPantheon, lengthPantheon);
+          double pantheonCost = totalPrice(materialCost,pTotalArea);
+          return $"The material cost for the Pantheon is {pantheonCost} pesos!";
+        case "TAJ MAHAL":
+          double sideTajMahal = 90.5;
+          double cornerLengthTajMahal = 24;
+          double corner = Rect(cornerLengthTajMahal,cornerLengthTajMahal)/2;
+          double totalCorners = corner * 4;
+          double noCornerArea = Rect(sideTajMahal,sideTajMahal);
+          double tjTotalArea = noCornerArea - totalCorners;
+          double tajMahalCost = totalPrice(materialCost,tjTotalArea);
+          return $"The material cost for the Taj Mahal is {tajMahalCost} pesos!";
+        case "GREAT MOSQUE OF MECCA":
+          double smallSideMosque1 = 180;
+          double smallSideMosque2 = 106;
+          double largeSideMosque1 = 284;
+          double largeSideMosque2 = 264;
+          double cutoffSideMosque = 84;
+          double cutoffMosque = Triangle(cutoffSideMosque,largeSideMosque2);
+          double smallBuildingMosque = Rect(smallSideMosque1, smallSideMosque2);
+          double largeBuildingMosque = Rect(largeSideMosque1, largeSideMosque2);
+          double mTotalArea = (smallBuildingMosque + largeBuildingMosque) - cutoffMosque;
+          double mosqueCost = totalPrice(materialCost,mTotalArea);
+          return $"The material cost for the Great Mosque of Mecca is {mosqueCost} pesos!";
+        case "TEOTIHUACAN":
+          double triangleBuildingHeight = 500;
+          double triangleBuildingLength = 750;
+          double rectBuildingLength = 2500;
+          double rectBuildingHeight = 1500;
+          double circBuildingRadius = 375;
+          double triangleBuildingArea = Triangle(triangleBuildingHeight, triangleBuildingLength);
+          double rectBuildingArea = Rect(rectBuildingLength, rectBuildingHeight);
+          double circBuildingArea = Circle(circBuildingRadius) / 2;
+          double tTotalArea = (triangleBuildingArea + rectBuildingArea) + circBuildingArea;
+          double teotihuacanCost = totalPrice(materialCost,tTotalArea);
+          return $"The material cost for the Teotihuacan is {teotihuacanCost} pesos!";
+        default:
+          return "Not a valid building";
+      }
+    }
+  }
+}
