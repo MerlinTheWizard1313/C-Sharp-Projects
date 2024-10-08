@@ -1,0 +1,93 @@
+using System;
+
+namespace TrueOrFalse
+{
+  class Program
+  {
+		static void Main(string[] args)
+    {
+      // Do not edit these lines
+      Console.WriteLine("Welcome to 'True or False?'\nPress Enter to begin:");
+      string entry = Console.ReadLine();
+      Tools.SetUpInputStream(entry);
+
+      Console.WriteLine("How many questions long would you like in your quiz?");
+      int questionNumber = Convert.ToInt32(Console.ReadLine());
+      int i = 0;
+      int j = 1;
+      bool move = false;
+      string[] newQuestions = new string[questionNumber];
+      bool[] newAnswers = new bool[questionNumber];
+      while (i<questionNumber)
+      {
+        Console.WriteLine($"Please write question number {j}: ");
+        newQuestions[i] = Console.ReadLine();
+
+        Console.WriteLine("Please write the answer to the question: TRUE or FALSE");
+        do
+        {
+          move = false;
+          string input1 = Console.ReadLine();
+          bool check1 = Boolean.TryParse(input1, out bool isBool1);
+          if (check1 == true)
+          {
+            newAnswers[i] = isBool1;
+            move = true;
+            i++;
+            break;
+          }
+          else
+          {
+            Console.WriteLine("Please respond with 'TRUE' or 'FALSE'");
+          }
+        i++;
+      }while (move == false);
+      Console.WriteLine("Your quiz is complete! \n Let's play!");
+      RunQuiz(newQuestions, newAnswers);
+    }
+    static void RunQuiz(string[] questions, bool[] answers)
+    {
+      int i = 0;
+      int j = 0;
+      int score = 0;
+      bool movement = false;
+      bool[] inputStore = new bool[questions.Length];
+      string input = "";
+      foreach (string question in questions)
+      {
+        Console.WriteLine($"Question {i+1}: {question}");
+        do
+        {
+          movement = false;
+          input = Console.ReadLine();
+          bool check = Boolean.TryParse(input, out bool isBool);
+          if (check == true)
+          {
+            inputStore[i] = isBool;
+            movement = true;
+            i++;
+            break;
+          }
+          else
+          {
+            Console.WriteLine("Please respond with 'TRUE' or 'FALSE'");
+          }
+        } while (movement == false);
+      }
+      Console.WriteLine("All questions answered! \n Calculating Score \n. \n. \n.");
+      foreach (bool answer in answers)
+      {
+        Console.WriteLine($"{j+1}. Your Answer: {inputStore[j]} | Actual Answer: {answer}");
+        if (inputStore[j] == answer)
+        {
+          score++;
+          j++;
+          continue;
+        }
+        j++;
+      }
+      Console.WriteLine($"Your final score is {score} out of {answers.Length}");
+    }
+  }
+}
+}
