@@ -1,0 +1,228 @@
+using System;
+
+namespace ExquisiteCorpse
+{
+  class Program
+  {
+    static void Main(string[] args)
+    {
+      Console.WriteLine("Would you like to build a creation or have a random creation? BUILD or RANDOM");
+      string creationChoice = Console.ReadLine();
+      creationChoice = creationChoice.ToUpper();
+      int firstChoice;
+      int secondChoice;
+      int thirdChoice;
+      SwitchStatement(creationChoice, out firstChoice, out secondChoice, out thirdChoice);
+      CreateACreature(firstChoice, secondChoice, thirdChoice);
+    }
+    public static void SwitchStatement(string creationString, out int headNumber, out int bodyNumber, out int feetNumber)
+    {
+      switch (creationString)
+      {
+        case "BUILD":
+        Console.WriteLine("Player One, Please choose a head type: GHOST, BUG or MONSTER");
+        string headChoice = Console.ReadLine();
+        headChoice = headChoice.ToUpper();
+        if (headChoice == "GHOST")
+        {
+          headNumber = 1;
+        }
+        else if (headChoice == "BUG")
+        {
+          headNumber = 2;
+        }
+        else if (headChoice == "MONSTER")
+        {
+          headNumber = 3;
+        }
+        else
+        {
+          headNumber = 0;
+        }
+        Console.WriteLine($"You have selected {headChoice} head!");
+
+        Console.WriteLine("Player Two, Please choose a body type: GHOST, BUG or MONSTER");
+        string bodyChoice = Console.ReadLine();
+        bodyChoice = bodyChoice.ToUpper();
+        if (bodyChoice == "GHOST")
+        {
+          bodyNumber = 1;
+        }
+        else if (bodyChoice == "BUG")
+        {
+          bodyNumber = 2;
+        }
+        else if (bodyChoice == "MONSTER")
+        {
+          bodyNumber = 3;
+        }
+        else
+        {
+          bodyNumber = 0;
+        }
+        Console.WriteLine($"You have selected {bodyChoice} body!");
+
+        Console.WriteLine("Player Three, Please choose a feet type: GHOST, BUG or MONSTER");
+        string feetChoice = Console.ReadLine();
+        feetChoice = feetChoice.ToUpper();
+        if (feetChoice == "GHOST")
+        {
+          feetNumber = 1;
+        }
+        else if (feetChoice == "BUG")
+        {
+          feetNumber = 2;
+        }
+        else if (feetChoice == "MONSTER")
+        {
+          feetNumber = 3;
+        }
+        else
+        {
+          feetNumber = 0;
+        }
+        Console.WriteLine($"You have selected {feetChoice} feet!");
+          return;
+        case "RANDOM":
+          Random randomNumber = new Random();
+          headNumber = randomNumber.Next(1,4);
+          bodyNumber = randomNumber.Next(1,4);
+          feetNumber = randomNumber.Next(1,4);
+          return;
+        default:
+          headNumber = 0;
+          bodyNumber = 0;
+          feetNumber = 0;
+          return;
+      }
+    }
+    static void GhostHead()
+    {
+      Console.WriteLine("     ..-..");
+      Console.WriteLine("    ( o o )");
+      Console.WriteLine("    |  O  |");
+    }
+
+    static void GhostBody()
+    {
+      Console.WriteLine("    |     |");
+      Console.WriteLine("    |     |");
+      Console.WriteLine("    |     |");
+    }
+
+    static void GhostFeet()
+    {
+      Console.WriteLine("    |     |");
+      Console.WriteLine("    |     |");
+      Console.WriteLine("    '~~~~~'");
+    }
+
+    static void BugHead()
+    {
+      Console.WriteLine("     /   \\");
+      Console.WriteLine("     \\. ./");
+      Console.WriteLine("    (o + o)");
+    }
+
+    static void BugBody()
+    {
+      Console.WriteLine("  --|  |  |--");
+      Console.WriteLine("  --|  |  |--");
+      Console.WriteLine("  --|  |  |--");
+    }
+
+    static void BugFeet()
+    {
+      Console.WriteLine("     v   v");
+      Console.WriteLine("     *****");
+    }
+
+    static void MonsterHead()
+    {
+      Console.WriteLine("     _____");
+      Console.WriteLine(" .-,;='';_),-.");
+      Console.WriteLine("  \\_\\(),()/_/");
+      Console.WriteLine("　  (,___,)");
+    }
+
+    static void MonsterBody()
+    {
+      Console.WriteLine("   ,-/`~`\\-,___");
+      Console.WriteLine("  / /).:.('--._)");
+      Console.WriteLine(" {_[ (_,_)");
+    }
+
+    static void MonsterFeet()
+    {
+      Console.WriteLine("    |  Y  |");
+      Console.WriteLine("   /   |   \\");
+      Console.WriteLine("   \"\"\"\" \"\"\"\"");
+    }
+    public static void CreateACreature(int headDecision, int bodyDecision, int feetDecision)
+    {
+      if (headDecision == 0)
+      {
+        Console.WriteLine("You have not selected a valid head choice so I will randomly choose a head");
+        Random randomNumber = new Random();
+        headDecision = randomNumber.Next(1,4);
+      }
+      if (bodyDecision == 0)
+      {
+        Console.WriteLine("You have not selected a valid body choice so I will randomly choose a body");
+        Random randomNumber = new Random();
+        bodyDecision = randomNumber.Next(1,4);
+      }
+      if (feetDecision == 0)
+      {
+        Console.WriteLine("You have not selected a valid feet choice so I will randomly choose feet");
+        Random randomNumber = new Random();
+        feetDecision = randomNumber.Next(1,4);
+      }
+      switch (headDecision)
+      {
+        case 1:
+          GhostHead();
+          break;
+        case 2:
+          BugHead();
+          break;
+        case 3:
+          MonsterHead();
+          break;
+        default:
+          Console.WriteLine("You have not selected a valid head choice!");
+          break;
+      }
+      switch (bodyDecision)
+      {
+        case 1:
+          GhostBody();
+          break;
+        case 2:
+          BugBody();
+          break;
+        case 3:
+          MonsterBody();
+          break;
+        default:
+          Console.WriteLine("You have not selected a valid body choice!");
+          break;
+      }
+      switch (feetDecision)
+      {
+        case 1:
+          GhostFeet();
+          return;
+        case 2:
+          BugFeet();
+          return;
+        case 3:
+          MonsterFeet();
+          return;
+        default:
+          Console.WriteLine("You have not selected a valid feet choice!");
+          return;
+      }
+    }
+  }
+}
