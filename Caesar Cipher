@@ -1,0 +1,104 @@
+using System;
+
+namespace CaesarCipher
+{
+  class Program
+  {
+    static void Main(string[] args)
+    {
+      Console.WriteLine("Would you like to ENCRYPT or DECRYPT a message?");
+      string choice = Console.ReadLine();
+      choice = choice.ToUpper();
+      if (choice == "ENCRYPT")
+      {
+        Console.WriteLine("Input the message you would like to encrypt: ");
+        string inputMessage = Console.ReadLine();
+        Console.WriteLine("Input your encryption key: ");
+        int passkey = Convert.ToInt32(Console.ReadLine());
+        Console.WriteLine(Encrypt(inputMessage, passkey));
+      }
+      else if (choice == "DECRYPT")
+      {
+        Console.WriteLine("Input the message you would like to decrypt: ");
+        string inputMessage = Console.ReadLine();
+        Console.WriteLine("Input your decryption key: ");
+        int passkey = Convert.ToInt32(Console.ReadLine());
+        Console.WriteLine(Decrypt(inputMessage, passkey));
+      }
+      else 
+      {
+        Console.WriteLine("Invalid Choice");
+      }
+    }
+
+    static string Encrypt(string message, int key)
+    {
+      char[] alphabet = new char[] {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+      message = message.ToLower();
+      char[] msgArray = message.ToCharArray();
+      int i = 0;
+      int specialCheck = 0;
+      char[] encryptedChar = new char[msgArray.Length];
+      char[] specialChars = {'?','!','#','@','%','&','$','£',' ', ',','\'', '"','.'};
+      foreach (char messageChars in msgArray)
+      {
+        foreach (char special in specialChars)
+        {
+          if (messageChars == special)
+          {
+            encryptedChar[i] = messageChars;
+            i++;
+            specialCheck++;
+          }
+        }
+        if (specialCheck == 1)
+        {
+          specialCheck = 0;
+          continue;
+        }
+        int x = Array.IndexOf(alphabet, messageChars);
+        x = x + key;
+        x = x % 26;
+        encryptedChar[i] = alphabet[x];
+        i++;
+      }
+      string encryptedMessage = String.Join("",encryptedChar);
+      return encryptedMessage;
+    }
+
+    static string Decrypt(string message, int key)
+    {
+      char[] alphabet = new char[] {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+      message = message.ToLower();
+      char[] enmsgArray = message.ToCharArray();
+      int i = 0;
+      int specialCheck = 0;
+      char[] decryptedChar = new char[enmsgArray.Length];
+      char[] specialChars = {'?','!','#','@','%','&','$','£',' ', ',','\'', '"', '.'};
+      foreach (char messageChars in enmsgArray)
+      {
+        foreach (char special in specialChars)
+        {
+          if (messageChars == special)
+          {
+            decryptedChar[i] = messageChars;
+            i++;
+            specialCheck++;
+          }
+        }
+        if (specialCheck == 1)
+        {
+          specialCheck = 0;
+          continue;
+        }
+        int x = Array.IndexOf(alphabet, messageChars);
+        x = (x - key) + 26;
+        x = x % 26;
+        decryptedChar[i] = alphabet[x];
+        i++;
+      }
+      string decryptedMessage = String.Join("",decryptedChar);
+      return decryptedMessage;
+    }
+  }
+}
